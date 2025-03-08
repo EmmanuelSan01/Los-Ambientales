@@ -54,7 +54,7 @@ CREATE TABLE area (
 CREATE TABLE visitante (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	alojamiento INT NOT NULL,
-	cedula VARCHAR(20) CHECK (cedula LIKE '%[0-9]%' AND LENGTH(cedula) > 6) NOT NULL,
+	cedula VARCHAR(20) CHECK (LENGTH(cedula) > 6) UNIQUE NOT NULL,
 	nombre1 VARCHAR(20) NOT NULL,
 	nombre2 VARCHAR(20),
 	apellido1 VARCHAR(20) NOT NULL,
@@ -68,8 +68,8 @@ CREATE TABLE especie (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	area INT NOT NULL,
 	reino ENUM("Animal", "Mineral", "Vegetal") DEFAULT "Animal",
-	den_cientifica VARCHAR(64) NOT NULL,
-	den_vulgar VARCHAR(64) NOT NULL,
+	den_cientifica VARCHAR(30) NOT NULL,
+	den_vulgar VARCHAR(30) NOT NULL,
 	cantidad INT CHECK (cantidad > 0) NOT NULL,
 	FOREIGN KEY (area) REFERENCES area(id)
 );
@@ -77,22 +77,16 @@ CREATE TABLE especie (
 CREATE TABLE personal (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	area INT NOT NULL,
-	cedula VARCHAR(20) CHECK (cedula LIKE '%[0-9]%' AND LENGTH(cedula) > 6) NOT NULL,
+	cedula VARCHAR(20) CHECK (LENGTH(cedula) > 6) UNIQUE NOT NULL,
 	nombre1 VARCHAR(20) NOT NULL,
 	nombre2 VARCHAR(20),
 	apellido1 VARCHAR(20) NOT NULL,
 	apellido2 VARCHAR(20) NOT NULL,
 	diceccion VARCHAR(100) NOT NULL,
-	tel_fijo VARCHAR(20) CHECK (tel_fijo LIKE '%[0-9]%' AND LENGTH(tel_fijo) > 6),
-	tel_movil VARCHAR(20) CHECK (tel_movil LIKE '%[0-9]%' AND LENGTH(tel_movil) > 9) NOT NULL,
+	tel_fijo VARCHAR(20) CHECK (LENGTH(tel_fijo) > 6),
+	tel_movil VARCHAR(20) CHECK (LENGTH(tel_movil) > 9) NOT NULL,
 	codigo ENUM("001", "002", "003", "004") DEFAULT "001",
 	tipo ENUM("Gestión", "Vigilancia", "Conservación", "Investigador") DEFAULT "Gestión",
-	CHECK (
-		(codigo = "001" AND tipo = "Gestión") OR
-		(codigo = "002" AND tipo = "Vigilancia") OR
-		(codigo = "003" AND tipo = "Conservación") OR
-		(codigo = "004" AND tipo = "Investigador")
-	), 
 	sueldo DECIMAL(10,2) CHECK (sueldo > 0) NOT NULL,
 	FOREIGN KEY (area) REFERENCES area(id)
 );
@@ -133,7 +127,7 @@ CREATE TABLE vehiculo_vigilancia (
 
 CREATE TABLE guardaparque (
 	personal INT PRIMARY KEY,
-	especialidad VARCHAR(20),
+	especialidad VARCHAR(30),
 	FOREIGN KEY (personal) REFERENCES personal(id)
 );
 
@@ -157,7 +151,7 @@ CREATE TABLE especie_investigacion (
 CREATE TABLE investigador_investigacion (
 	investigador INT NOT NULL,
 	investigacion INT NOT NULL,
-	funcion VARCHAR(20),
+	funcion VARCHAR(30),
 	FOREIGN KEY (investigador) REFERENCES personal(id),
 	FOREIGN KEY (investigacion) REFERENCES proyecto_investigacion(id),
 	PRIMARY KEY (investigador, investigacion)
