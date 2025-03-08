@@ -4,14 +4,14 @@ USE parques_naturales;
 
 CREATE TABLE entidad (
 	id INT PRIMARY KEY AUTO_INCREMENT,
-	nombre VARCHAR(64) NOT NULL
+	nombre VARCHAR(40) NOT NULL
 );
 
 CREATE TABLE departamento (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	entidad INT NOT NULL,
-	nombre VARCHAR(64) NOT NULL,
-	capital VARCHAR(64) NOT NULL,
+	nombre VARCHAR(25) NOT NULL,
+	capital VARCHAR(25) NOT NULL,
 	superficie_km2 INT CHECK (superficie_km2 > 0) NOT NULL,
 	poblacion INT CHECK (poblacion > 0) NOT NULL,
 	prefijo_telefonico INT NOT NULL,
@@ -21,15 +21,15 @@ CREATE TABLE departamento (
 
 CREATE TABLE parque_natural (
 	id INT PRIMARY KEY AUTO_INCREMENT,
-	nombre VARCHAR(64) NOT NULL,
+	nombre VARCHAR(100) NOT NULL,
 	fecha_declaracion DATE NOT NULL,
-	terrreno_km2 INT CHECK (terrreno_km2 > 0) NOT NULL
+	superficie_ha INT CHECK (superficie_ha > 0) NOT NULL
 );
 
 CREATE TABLE jurisdiccion (
 	departamento INT NOT NULL,
 	parque_natural INT NOT NULL,
-	terreno_km2 INT CHECK (terreno_km2 > 0) NOT NULL,
+	relacion ENUM("Principal", "Secundario") DEFAULT "Principal",
 	FOREIGN KEY (departamento) REFERENCES departamento(id),
 	FOREIGN KEY (parque_natural) REFERENCES parque_natural(id),
 	PRIMARY KEY (departamento, parque_natural)
@@ -139,7 +139,7 @@ CREATE TABLE guardaparque (
 
 CREATE TABLE proyecto_investigacion (
 	id INT PRIMARY KEY AUTO_INCREMENT,
-	titulo VARCHAR(64) NOT NULL,
+	titulo VARCHAR(100) NOT NULL,
 	presupuesto DECIMAL(12,2) CHECK (presupuesto > 0) NOT NULL,
 	comienzo DATE NOT NULL,
 	final DATE NOT NULL
