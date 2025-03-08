@@ -1118,19 +1118,3 @@ INSERT INTO investigador_investigacion (investigador, investigacion, funcion) VA
 	(49, 49, "Técnico"),
 	(50, 50, "Investigador Principal")
 ;
-
-
-
-
-
-
-
-
-	
-
-
-
-
-
-
-
