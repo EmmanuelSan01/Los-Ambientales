@@ -2,6 +2,7 @@ DROP DATABASE IF EXISTS parques_naturales;
 CREATE DATABASE parques_naturales;
 USE parques_naturales;
 
+-- Creación de la base de datos
 CREATE TABLE entidad (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	nombre VARCHAR(40) NOT NULL
@@ -155,4 +156,60 @@ CREATE TABLE investigador_investigacion (
 	FOREIGN KEY (investigador) REFERENCES personal(id),
 	FOREIGN KEY (investigacion) REFERENCES proyecto_investigacion(id),
 	PRIMARY KEY (investigador, investigacion)
+);
+
+-- Creación de las tablas de log
+CREATE TABLE log_cambios_sueldo (
+   id INT PRIMARY KEY AUTO_INCREMENT,
+   personal_id INT,
+   sueldo_anterior DECIMAL(10,2),
+   sueldo_nuevo DECIMAL(10,2),
+   fecha_cambio DATETIME
+);
+
+CREATE TABLE log_eventos (
+   id INT PRIMARY KEY AUTO_INCREMENT,
+   mensaje VARCHAR(255),
+   fecha DATETIME
+);
+
+CREATE TABLE log_inventario_especies (
+   id INT PRIMARY KEY AUTO_INCREMENT,
+   especie_id INT,
+   cantidad_anterior INT,
+   cantidad_nueva INT,
+   fecha_cambio DATETIME
+);
+
+CREATE TABLE log_movimientos_personal (
+   id INT PRIMARY KEY AUTO_INCREMENT,
+   cedula VARCHAR(20),
+   nombre VARCHAR(50),
+   accion VARCHAR(20),
+   fecha DATETIME
+);
+
+CREATE TABLE log_cambios_alojamiento (
+   id INT PRIMARY KEY AUTO_INCREMENT,
+   alojamiento_id INT,
+   capacidad_anterior INT,
+   capacidad_nueva INT,
+   fecha DATETIME
+);
+
+CREATE TABLE log_visitas_area (
+   id INT PRIMARY KEY AUTO_INCREMENT,
+   area_id INT,
+   visitante_id INT,
+   ingreso DATETIME,
+   fecha_registro DATETIME
+);
+
+CREATE TABLE log_cambios_jurisdiccion (
+   id INT PRIMARY KEY AUTO_INCREMENT,
+   departamento INT,
+   parque_natural INT,
+   relacion_anterior ENUM("Principal", "Secundario"),
+   relacion_nueva ENUM("Principal", "Secundario"),
+   fecha DATETIME
 );

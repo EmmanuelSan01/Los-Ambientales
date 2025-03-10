@@ -1,3 +1,5 @@
+USE parques_naturales;
+
 INSERT INTO entidad (nombre) VALUES
 	("Gobernación de Amazonas"),
 	("Gobernación de Antioquia"),
@@ -504,7 +506,25 @@ INSERT INTO especie (area, reino, den_cientifica, den_vulgar, cantidad) VALUES
 	(20, "Vegetal", "Ceroxylon quindiuense", "Palma de cera cafetera", 145),
 	(8, "Vegetal", "Heliconia spp.", "Platanillo", 567),
 	(57, "Vegetal", "Quercus humboldtii", "Roble de tierra fría", 234),
-	(93, "Vegetal", "Pourouma cecropiifolia", "Uva de monte", 456)
+	(93, "Vegetal", "Pourouma cecropiifolia", "Uva de monte", 456),
+	(1, "Mineral", "Quartz", "Cuarzo", 50),
+	(1, "Mineral", "Feldspar", "Feldespato", 40),
+	(2, "Mineral", "Calcite", "Calcita", 35),
+	(2, "Mineral", "Pyrite", "Pirita", 25),
+	(3, "Mineral", "Hematite", "Hematita", 30),
+	(3, "Mineral", "Magnetite", "Magnetita", 20),
+	(4, "Mineral", "Galena", "Galena", 18),
+	(4, "Mineral", "Gypsum", "Yeso", 22),
+	(5, "Mineral", "Halite", "Halita", 15),
+	(5, "Mineral", "Fluorite", "Fluorita", 28),
+	(6, "Mineral", "Bauxite", "Bauxita", 12),
+	(6, "Mineral", "Malachite", "Malaquita", 19),
+	(7, "Mineral", "Turquoise", "Turquesa", 10),
+	(7, "Mineral", "Graphite", "Grafito", 14),
+	(8, "Mineral", "Sphalerite", "Esfalerita", 17),
+	(8, "Mineral", "Corundum", "Corindón", 9),
+	(9, "Mineral", "Olivine", "Olivino", 21),
+	(9, "Mineral", "Talc", "Talco", 11)
 ;
 
 INSERT INTO alojamiento (parque_natural, categoria, capacidad) VALUES
