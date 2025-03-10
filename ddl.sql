@@ -1,8 +1,9 @@
+-- I. CREACIÓN DE LA BASE DE DATOS
+
 DROP DATABASE IF EXISTS parques_naturales;
 CREATE DATABASE parques_naturales;
 USE parques_naturales;
 
--- Creación de la base de datos
 CREATE TABLE entidad (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	nombre VARCHAR(40) NOT NULL
@@ -158,7 +159,8 @@ CREATE TABLE investigador_investigacion (
 	PRIMARY KEY (investigador, investigacion)
 );
 
--- Creación de las tablas de log
+-- II. CREACIÓN DE LAS TABLAS DE LOG
+
 CREATE TABLE log_cambios_sueldo (
    id INT PRIMARY KEY AUTO_INCREMENT,
    personal_id INT,
@@ -213,3 +215,57 @@ CREATE TABLE log_cambios_jurisdiccion (
    relacion_nueva ENUM("Principal", "Secundario"),
    fecha DATETIME
 );
+
+-- III. CREACIÓN DE USUARIOS
+
+-- 1. Administrador: Acceso total
+DROP USER "administrador"@"localhost";
+FLUSH PRIVILEGES;
+CREATE USER "administrador"@"localhost" IDENTIFIED BY "AdminPass123";
+GRANT ALL PRIVILEGES ON parques_naturales.* TO "administrador"@"localhost";
+FLUSH PRIVILEGES;
+
+-- 2. Gestor de parques: Gestión de parques, áreas y especies
+DROP USER "gestor_parques"@"localhost";
+FLUSH PRIVILEGES;
+CREATE USER "gestor_parques"@"localhost" IDENTIFIED BY "GestorPass456";
+GRANT SELECT, INSERT, UPDATE, DELETE ON parques_naturales.parque_natural TO "gestor_parques"@"localhost";
+GRANT SELECT, INSERT, UPDATE, DELETE ON parques_naturales.area TO "gestor_parques"@"localhost";
+GRANT SELECT, INSERT, UPDATE, DELETE ON parques_naturales.especie TO "gestor_parques"@"localhost";
+GRANT SELECT ON parques_naturales.jurisdiccion TO "gestor_parques"@"localhost";
+GRANT SELECT ON parques_naturales.departamento TO "gestor_parques"@"localhost";
+FLUSH PRIVILEGES;
+
+-- 3. Investigador: Acceso a datos de proyectos y especies
+DROP USER "investigador"@"localhost";
+FLUSH PRIVILEGES;
+CREATE USER "investigador"@"localhost" IDENTIFIED BY "InvestPass789";
+GRANT SELECT ON parques_naturales.proyecto_investigacion TO "investigador"@"localhost";
+GRANT SELECT ON parques_naturales.especie_investigacion TO "investigador"@"localhost";
+GRANT SELECT ON parques_naturales.especie TO "investigador"@"localhost";
+GRANT SELECT ON parques_naturales.area TO "investigador"@"localhost";
+GRANT SELECT ON parques_naturales.parque_natural TO "investigador"@"localhost";
+GRANT SELECT, UPDATE ON parques_naturales.investigador_investigacion TO "investigador"@"localhost";
+FLUSH PRIVILEGES;
+
+-- 4. Auditor: Acceso a reportes financieros
+DROP USER "auditor"@"localhost";
+FLUSH PRIVILEGES;
+CREATE USER "auditor"@"localhost" IDENTIFIED BY "AuditPass101";
+GRANT SELECT ON parques_naturales.proyecto_investigacion TO "auditor"@"localhost";
+GRANT SELECT ON parques_naturales.personal TO "auditor"@"localhost";
+GRANT SELECT ON parques_naturales.parque_natural TO "auditor"@"localhost";
+GRANT SELECT ON parques_naturales.area TO "auditor"@"localhost";
+FLUSH PRIVILEGES;
+
+-- 5. Encargado de visitantes: Gestión de visitantes y alojamientos
+DROP USER "encargado_visitantes"@"localhost";
+FLUSH PRIVILEGES;
+CREATE USER "encargado_visitantes"@"localhost" IDENTIFIED BY "VisitPass202";
+GRANT SELECT, INSERT, UPDATE, DELETE ON parques_naturales.alojamiento TO "encargado_visitantes"@"localhost";
+GRANT SELECT, INSERT, UPDATE, DELETE ON parques_naturales.visitante TO "encargado_visitantes"@"localhost";
+GRANT SELECT, INSERT, UPDATE, DELETE ON parques_naturales.visita TO "encargado_visitantes"@"localhost";
+GRANT SELECT, INSERT, UPDATE ON parques_naturales.gestion_visita TO "encargado_visitantes"@"localhost";
+GRANT SELECT ON parques_naturales.parque_natural TO "encargado_visitantes"@"localhost";
+GRANT SELECT ON parques_naturales.area TO "encargado_visitantes"@"localhost";
+FLUSH PRIVILEGES;
